@@ -15,7 +15,7 @@ const openrouter = new OpenAI({
 const app = express();
 
 app.use(cors({
-  origin: "https://chatbotfrontend-sn6p.onrender.com/",
+  origin: "https://chatbotfrontend-sn6p.onrender.com",
   methods: ["GET", "POST"],
   credentials: true
 }));
