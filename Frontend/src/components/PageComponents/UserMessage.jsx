@@ -1,57 +1,43 @@
 import { useState } from "react";
 import axios from "axios";
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
-const chatEndpoint = apiBaseUrl ? `${apiBaseUrl.replace(/\/$/, "")}/chat` : "/chat";
-
 function UserMessage({ setMessages }) {
     const [input, setInput] = useState("");
     const [isSending, setIsSending] = useState(false);
-
     const sendMessage = async () => {
         const trimmed = input.trim();
         if (!trimmed || isSending) return;
-
         const userMessage = {
             id: crypto.randomUUID(),
             sender: "user",
             text: trimmed,
         };
-
         setIsSending(true);
-        setMessages((prev) => [...prev, userMessage]);
-
+        setMessages((prev) => [
+            ...prev,
+            userMessage]);
         try {
-            const res = await axios.post(chatEndpoint, {
-                message: trimmed,
-            });
-
+            const res = await axios.post("http://localhost:3000/chat",
+                { message: trimmed, });
             const botReply = res.data?.reply ?? "Sorry, I could not generate a reply.";
-
-            setMessages((prev) => [
-                ...prev,
-                {
-                    id: crypto.randomUUID(),
-                    sender: "bot",
-                    text: botReply,
-                },
+            setMessages((prev) => [...prev, {
+                id: crypto.randomUUID(),
+                sender: "bot",
+                text: botReply,
+            },
             ]);
-
             setInput("");
         } catch (error) {
-            setMessages((prev) => [
-                ...prev,
-                {
-                    id: crypto.randomUUID(),
-                    sender: "bot",
-                    text: "The backend request failed. Please try again.",
-                },
+            setMessages((prev) => [...prev, {
+                id: crypto.randomUUID(),
+                sender: "bot",
+                text: "The backend request failed. Please try again.",
+            },
             ]);
         } finally {
             setIsSending(false);
         }
     };
-
     const submitHandler = (e) => {
         e.preventDefault();
         sendMessage();
