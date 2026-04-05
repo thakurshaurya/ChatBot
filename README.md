@@ -4,7 +4,7 @@ This is a full-stack AI chatbot built using **React (frontend)** and **Node.js +
 It allows users to ask questions and get intelligent responses using the OpenRouter API.
 
 🔗 **Live Demo:**  
-[](https://chatbotfrontend-sn6p.onrender.com/)
+[Click Here](https://chatbotfrontend-sn6p.onrender.com/)
 
 ---
 
