@@ -13,7 +13,7 @@ const openrouter = new OpenAI({
 });
 
 const app = express();
-const allowedOrigins = (process.env.CORS_ORIGIN || process.env.FRONTEND_ORIGIN || "")
+const allowedOrigins = (process.env.CORS_ORIGIN || chatbotfrontend-sn6p.onrender.com || "")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
