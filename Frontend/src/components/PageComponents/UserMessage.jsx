@@ -17,7 +17,7 @@ function UserMessage({ setMessages }) {
             ...prev,
             userMessage]);
         try {
-            const res = await axios.post("http://localhost:3000/chat",
+            const res = await axios.post("https://chatbotbackend-3v33.onrender.com",
                 { message: trimmed, });
             const botReply = res.data?.reply ?? "Sorry, I could not generate a reply.";
             setMessages((prev) => [...prev, {
