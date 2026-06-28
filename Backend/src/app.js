@@ -2,13 +2,13 @@ const express = require("express");
 const inputmodel = require("./model/input.model");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const AI = require("@google/genai");
+const { GoogleGenAI } = require("@google/genai");
 
 
 dotenv.config();
 
 
-const client = new AI({
+const client = new GoogleGenAI({
   apiKey: process.env.AI_API_KEY,
 });
 
@@ -28,21 +28,21 @@ app.post("/chat", async (req, res) => {
       return res.status(400).json({ error: "Message is required" });
     }
 
-    const response = await client.chat.completions.create({
-      model: "gemini-3.5-flash",
-      messages: [
-        {
-          role: "system",
-          content: "You are a General Knowledge expert.",
-        },
+    const response = await client.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: [
         {
           role: "user",
-          content: message,
+          parts: [
+            {
+              text: `You are a General Knowledge expert.\n\nUser: ${message}`,
+            },
+          ],
         },
       ],
     });
 
-    const reply = response.choices[0].message.content;
+    const reply = response.text;
 
     await inputmodel.create({
       input: message,
