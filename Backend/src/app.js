@@ -6,6 +6,10 @@ const OpenAI = require("openai");
 
 
 dotenv.config();
+console.log("================================");
+console.log("Using OpenAI");
+console.log("Key exists:", !!process.env.OPENAI_API_KEY);
+console.log("================================");
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -17,8 +21,6 @@ app.use(cors({
   origin: "https://chatbotfrontend-sn6p.onrender.com",
   methods: ["GET", "POST"],
 }));
-
-
 
 app.use(express.json());
 
@@ -69,8 +71,7 @@ app.post("/chat", async (req, res) => {
     });
   }
 });
-console.log("Using OpenAI SDK");
-console.log("Model:", "gpt-5.4-mini");
+
 app.get("/health", (req, res) => {
   res.json({ ok: true });
 });
