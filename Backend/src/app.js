@@ -8,7 +8,7 @@ const OpenAI = require("openai");
 dotenv.config();
 
 const client = new OpenAI({
-  apiKey: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,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const app = express();
