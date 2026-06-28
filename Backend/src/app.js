@@ -1,3 +1,5 @@
+console.log("🔥 NEW APP.JS IS RUNNING 🔥");
+console.log("OPENAI KEY EXISTS:", !!process.env.OPENAI_API_KEY);
 const express = require("express");
 const inputmodel = require("./model/input.model");
 const cors = require("cors");
