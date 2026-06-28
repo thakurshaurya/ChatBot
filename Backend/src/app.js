@@ -1,20 +1,15 @@
-console.log("🔥 NEW APP.JS IS RUNNING 🔥");
-console.log("OPENAI KEY EXISTS:", !!process.env.OPENAI_API_KEY);
 const express = require("express");
 const inputmodel = require("./model/input.model");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const OpenAI = require("openai");
+const AI = require("@google/genai");
 
 
 dotenv.config();
-console.log("================================");
-console.log("Using OpenAI");
-console.log("Key exists:", !!process.env.OPENAI_API_KEY);
-console.log("================================");
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+
+const client = new AI({
+  apiKey: process.env.AI_API_KEY,
 });
 
 const app = express();
@@ -34,7 +29,7 @@ app.post("/chat", async (req, res) => {
     }
 
     const response = await client.chat.completions.create({
-      model: "gpt-5-mini",
+      model: "gemini-3.5-flash",
       messages: [
         {
           role: "system",
