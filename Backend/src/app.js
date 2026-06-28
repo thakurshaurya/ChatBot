@@ -7,9 +7,8 @@ const OpenAI = require("openai");
 
 dotenv.config();
 
-const openrouter = new OpenAI({
-  apiKey: process.env.OPENROUTER_API_KEY,
-  baseURL: "https://openrouter.ai/api/v1",
+const client = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const app = express();
@@ -17,8 +16,8 @@ const app = express();
 app.use(cors({
   origin: "https://chatbotfrontend-sn6p.onrender.com",
   methods: ["GET", "POST"],
-  credentials: true
 }));
+
 
 
 app.use(express.json());
@@ -30,9 +29,13 @@ app.post("/chat", async (req, res) => {
       return res.status(400).json({ error: "Message is required" });
     }
 
-    const stream = await openrouter.chat.completions.create({
-      model: "nvidia/nemotron-3-super-120b-a12b:free",
+    const response = await client.chat.completions.create({
+      model: "gpt-5-mini",
       messages: [
+        {
+          role: "system",
+          content: "You are a General Knowledge expert.",
+        },
         {
           role: "user",
           content: message,
@@ -40,7 +43,7 @@ app.post("/chat", async (req, res) => {
       ],
     });
 
-    const reply = stream?.choices?.[0]?.message?.content ?? "";
+    const reply = response.choices[0].message.content;
 
     await inputmodel.create({
       input: message,
@@ -49,8 +52,21 @@ app.post("/chat", async (req, res) => {
 
     return res.json({ reply });
   } catch (err) {
+    console.error("Error:");
     console.error(err);
-    return res.status(500).json({ error: "Error" });
+
+    if (err.status) {
+      console.error("Status:", err.status);
+    }
+
+    if (err.error) {
+      console.error("API Error:", err.error);
+    }
+
+    return res.status(500).json({
+      message: err.message,
+      error: err.error,
+    });
   }
 });
 
