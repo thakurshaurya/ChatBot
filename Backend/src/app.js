@@ -24,8 +24,6 @@ app.use(express.json());
 
 app.post("/chat", async (req, res) => {
   try {
-    console.log("Using OpenAI SDK");
-    console.log("Model:", "gpt-5.4-mini");
     const message = req.body.message;
     if (!message || !message.trim()) {
       return res.status(400).json({ error: "Message is required" });
@@ -71,7 +69,8 @@ app.post("/chat", async (req, res) => {
     });
   }
 });
-
+console.log("Using OpenAI SDK");
+console.log("Model:", "gpt-5.4-mini");
 app.get("/health", (req, res) => {
   res.json({ ok: true });
 });
