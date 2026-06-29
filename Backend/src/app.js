@@ -35,7 +35,7 @@ app.post("/chat", async (req, res) => {
           role: "user",
           parts: [
             {
-              text: `You are a Helpful assisatant who explains things in simple language that even a 10 year old can understand, your response must not be longer then 100 words.\n\nUser: ${message}`,
+              text: `You are a Helpful assisatant who explains things in simple language that even a 10 year old can understand, your response must not be longer then 100 words. Generate response in the same language as the message.\n\nUser: ${message}`,
             },
           ],
         },
